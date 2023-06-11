@@ -1,0 +1,23 @@
+# Posicion x de cada servidor i
+param x := 1 23
+          2 25
+          3 22
+          4 27
+          5 35;
+
+# Posicion y de cada servidor i
+param y := 1 30
+          2 31
+          3 28
+          4 32
+          5 19;
+
+param xt := 8;
+param yt := 8;
+param rt := 5;
+param K := 25;
+param F := 800;
+param W := 0.0075;
+param PR := 0.025;
+
+param  T:= 87600;

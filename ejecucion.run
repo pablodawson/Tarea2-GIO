@@ -1,0 +1,8 @@
+reset;
+
+model modelo.mod;
+data datos.dat;
+option solver MINOS;
+solve;
+
+display FO, x_, y_, P, _total_solve_time;
