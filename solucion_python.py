@@ -1,7 +1,11 @@
 import numpy as np
 from scipy.optimize import minimize
 import time
-
+import tracemalloc
+ 
+# starting the monitoring
+tracemalloc.start()
+ 
 # Conjuntos y parámetros
 x = np.array([23, 25, 22, 27, 35])  # Posición x de cada servidor i
 y = np.array([30, 31, 28, 32, 19])  # Posición y de cada servidor i
@@ -38,9 +42,11 @@ cons = [
     {'type': 'ineq', 'fun': restriccion2}
 ]
 
+start = time.time()
 # Ejecución de la optimización
 result = minimize(funcion_objetivo, initial_guess, constraints=cons, method='COBYLA')
 
+print("Tiempo de ejecución:", time.time() - start)
 # Obtención de los resultados
 x_ = result.x[0]
 y_ = result.x[1]
@@ -50,3 +56,6 @@ print("Posición óptima de la torre de comunicaciones:")
 print("x_ =", x_)
 print("y_ =", y_)
 print("Potencia irradiada óptima:", P)
+
+print("Memoria ocupada: "+str(tracemalloc.get_traced_memory()))
+tracemalloc.stop()
