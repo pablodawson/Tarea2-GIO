@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
+import time
 
 # Conjuntos y parámetros
 x = np.array([23, 25, 22, 27, 35])  # Posición x de cada servidor i
@@ -13,7 +14,6 @@ PR = 0.025  # Potencia mínima de cada servidor [Watt]
 T = 24*10*365  # Tiempo de funcionamiento (en horas)
 # Función objetivo ##
 
-#bien
 def funcion_objetivo(args):
     x_, y_, p1, p2, p3, p4, p5 = args
     P = np.array([p1, p2, p3, p4, p5])
@@ -23,11 +23,11 @@ def funcion_objetivo(args):
 def restriccion1(vars):
     x_, y_, p1,p2,p3,p4,p5 = vars
     P = np.array([p1, p2, p3, p4, p5])
-    return -(K * P) + PR*((x_ - xt)**2 + (y_ - yt)**2)
+    return (K * P) - PR * ((x_ - xt)**2 + (y_ - yt)**2)
 
 def restriccion2(vars):
-    x_, y_,_,_,_,_,_ = vars
-    return (x - xt)**2 + (y - yt)**2 - rt**2
+    x_, y_, _,_,_,_,_ = vars
+    return -(x_ - xt)**2 - (y_ - yt)**2 + rt**2
 
 # Guess inicial
 initial_guess = [0.001, 0.001, 0,0,0,0,0]
@@ -39,7 +39,7 @@ cons = [
 ]
 
 # Ejecución de la optimización
-result = minimize(funcion_objetivo, initial_guess, constraints=cons, method='SLSQP', options={'disp': True})
+result = minimize(funcion_objetivo, initial_guess, constraints=cons, method='COBYLA')
 
 # Obtención de los resultados
 x_ = result.x[0]
